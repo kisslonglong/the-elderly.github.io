@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scrollama Example</title>
+    <style>
+        @font-face {
+            font-family: 'webfontregular';
+            src: url('hanyixuefengtijian-1-webfont.woff2') format('woff2'),
+                url('hanyixuefengtijian-1-webfont.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        #scrolly {
+            position: relative;
+            background-color: #ffffff;
+            padding: 1rem;
+        }
+
+        article {
+            position: relative;
+            padding: 0;
+            max-width: 20rem;
+            margin: 0 auto;
+            pointer-events: none;
+        }
+
+        figure {
+            position: -webkit-sticky;
+            position: sticky;
+            left: 0;
+            width: 100%;
+            margin: 0;
+            -webkit-transform: translate3d(0, 0, 0);
+            -moz-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+            background-color: #8a8a8a;
+        }
+
+        figure p {
+            text-align: bottom;
+            padding: 1rem;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -moz-transform: translate(-50%, -50%);
+            -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            font-size: 8rem;
+            font-weight: 900;
+            color: #fff;
+        }
+
+        .step {
+            margin: 2rem auto;
+            /* 增加步骤之间的页面距离 */
+            color: #000000;
+            background-color: rgba(255, 255, 255, 0.5);
+            font-size: 17px;
+            line-height: 180%;
+            padding: 2em;
+            pointer-events: none;
+            box-shadow: 0px 0px 8px 3px #bcbcbc;
+            transition: opacity 0.5s ease-in-out;
+            /* 添加渐变效果 */
+        }
+
+        .invisible {
+            visibility: hidden;
+            height: 100vh;
+        }
+
+
+        .step.is-active {
+            opacity: 1;
+            /* 当步骤处于活动状态时，设置为可见 */
+        }
+
+        .step-icon {
+            font-size: 24px;
+            color: #3d4ca3;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="https://unpkg.com/d3@5.9.1/dist/d3.min.js"></script>
+    <script src="https://unpkg.com/intersection-observer@0.5.1/intersection-observer.js"></script>
+    <script
+        src="https://markup.standaard.be/extra/assets/extra/dslive/2020/scrolly/scrollama/stickyfill.min.js"></script>
+    <script
+        src="https://markup.standaard.be/extra/assets/extra/dslive/2020/scrolly/scrollama/scrollama.min.js"></script>
+    <script>
+        // 省略其他JavaScript代码
+
+        // scrollama event handlers
+        function handleStepEnter(response) {
+            console.log(response);
+            // response = { element, direction, index }
+
+            // 添加is-active类以高亮当前步骤
+            step.classed("is-active", function (d, i) {
+                return i === response.index;
+            });
+        }
+
+        function updateStepIcon() {
+            // 更新步骤图标
+            var stepIcons = step.selectAll(".step-icon");
+            stepIcons.text("➜"); // 设置为你想要的图标
+            stepIcons.classed("is-active", function (d, i) {
+                return i === response.index;
+            });
+        }
+
+        function init() {
+            setupStickyfill();
+
+            // 1. 在加载时强制调整大小，以确保正确的尺寸传递给scrollama
+            handleResize();
+
+            // 2. 设置scrollama并传递选项
+            //    这也将初始化触发器观察
+            // 3. 绑定scrollama事件处理程序（可以像下面这样链式调用）
+            scroller
+                .setup({
+                    step: "#scrolly article .step",
+                    offset: 0.9,
+                    debug: false,
+                })
+                .onStepEnter(handleStepEnter);
+
+            // 设置resize事件
+            window.addEventListener("resize", handleResize);
+        }
+
+        // 点击步骤时滚动到相应的位置
+        step.on("click", function (d, i) {
+            // 获取当前步骤的偏移量
+            var offset = i * window.innerHeight;
+            window.scrollTo({
+                top: offset,
+                behavior: "smooth", // 平滑滚动
+            });
+        });
+
+        // kick things off
+        init();
+    </script>
+
+    <div>
+        <section id="scrolly">
+            <figure style="height: 353px; top: 0px;">
+                <iframe src='https://flo.uri.sh/story/2051939/embed' title='Interactive or visual content'
+                    class='flourish-embed-iframe' frameborder='0' scrolling='no' style='width:100%;height:800px;'
+                    sandbox='allow-same-origin allow-forms allow-scripts allow-downloads allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation'></iframe>
+            </figure>
+
+            <div class='scrolly'>
+                <!-- sticky graphic -->
+                <figure class='sticky'>
+                    <!-- chart stuff in here -->
+                </figure>
+                <!-- step text -->
+                <article>
+                    <div class='step' data-step='0'>
+                        <p>2023年3月<span style="color: #ffffff; background-color: #3d4ca3;"><b>中国综合社会调查（CGSS）</b></span>
+                            发布最新调查数据，其中记录了“已经超过退休年龄”，“目前依然在工作”的老人们。</p>
+                        <span class="step-icon"></span> <!-- 步骤图标 -->
+                    </div>
+
+                    <div class="step invisible">
+                    </div>
+                    <div class="step">
+                        <p>
+                            经过筛选后我们最终得到236个样本，<span
+                                style="color: #ffffff; background-color: #3d4ca3; "><b>男女比例为1:1.1（1.1）,男性的平均年龄为66.5岁，女性的平均年龄为62.0岁。</b></span>
+                        </p>
+                        <span class="step-icon"></span> <!-- 步骤图标 -->
+                    </div>
+                </article>
+            </div>
+        </section>
+    </div>
+</body>
+
+</html>

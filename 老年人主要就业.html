@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Echarts图表示例</title>
+    <!-- 使用ECharts的CDN链接 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.3.0/echarts.min.js"></script>
+</head>
+<body>
+    <!-- 用一个容器 div 来容纳图表 -->
+    <div id="main" style="width: 800px; height: 600px;"></div>
+
+    <script>
+        // 不要导入模块，直接使用全局的 echarts 对象
+        var chartDom = document.getElementById('main');
+        var myChart = echarts.init(chartDom);
+        var option;
+
+        option = {
+            backgroundColor: 'black',
+            title: {
+                text: '中国老年人主要就业行业',
+                left: 'center',
+                top: '60',
+                textStyle: {
+                    color: 'white',
+                    fontSize: 22
+                }
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: '{a} <br/>{b}: ({d}%)'
+            },
+            graphic: {
+                type: 'text',
+                left: '850',
+                top: '730',
+                style: {
+                    text: '数据来源:第七次人口普查',
+                    textAlign: 'center',
+                    fill: 'white',
+                    fontSize: 12
+                }
+            },
+            legend: {
+                orient: 'vertical',
+                left: '300',
+                top: '600',
+                textStyle: {
+                    color: 'white'
+                }
+            },
+            series: [
+                {
+                    name: '行业',
+                    type: 'pie',
+                    radius: '50%',
+                    data: [
+                        {
+                            value: 3821408,
+                            name: '农林牧渔业',
+                            itemStyle: {
+                                color: '#FF7F00' // 设置颜色为橙色
+                            }
+                        },
+                        {
+                            value: 380533,
+                            name: '制造业',
+                            itemStyle: {
+                                color: '#C76114' // 设置颜色为深橙色
+                            }
+                        },
+                        {
+                            value: 406214,
+                            name: '建筑业',
+                            itemStyle: {
+                                color: '#ED9121' // 设置颜色为深橙色
+                            }
+                        },
+                        {
+                            value: 362618,
+                            name: '批发和零售业',
+                            itemStyle: {
+                                color: '#FFE384' // 设置颜色为深橙色
+                            }
+                        },
+                        {
+                            value: 158480,
+                            name: '居民服务、修理和其他服务业',
+                            itemStyle: {
+                                color: '#FFA500' // 设置颜色为深橙色
+                            }
+                        },
+                        {
+                            value: 648188,
+                            name: '其他',
+                            itemStyle: {
+                                color: '#FFD700' // 设置颜色为深橙色
+                            }
+                        }
+                    ],
+                    label: {
+                        show: true,
+                        formatter: '{b}: ({d}%)' // 显示饼图内部百分比占比
+                    },
+                    emphasis: {
+                        label: {
+                            show: true,
+                            fontSize: '20',
+                            fontWeight: 'bold'
+                        }
+                    },
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ],
+        }
+        myChart.setOption(option);
+    </script>
+</body>
+
+</html>
